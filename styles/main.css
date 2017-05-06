@@ -88,7 +88,52 @@ p {
 .skill-unit-with-quiz {
     background-color: rgba(250, 250, 250, 0.9);
     box-shadow: inset 0px 0px 2px rgba(244, 244, 244, 1);
-} 
+}
+
+.total-questions {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: #f44336;
+    box-shadow: 1px 0px 2px #ca382d;
+    padding: 8px;
+    border-radius: 0px 0px 0px 4px;
+    font-weight: bold;
+    color: white;
+}
+
+.time-spent {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: #f44336;
+    box-shadow: 1px 0px 2px #ca382d;
+    padding: 8px;
+    border-radius: 4px 0px 0px 0px;
+    font-weight: bold;
+    color: white;
+}
+
+.question {
+    margin-bottom: 8px;
+}
+
+.answer {
+    margin-bottom: 4px;
+}
+
+.question-number {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #f44336;
+    box-shadow: 1px 0px 2px #ca382d;
+    padding: 8px;
+    border-radius: 0px 0px 4px 0px;
+    font-weight: bold;
+    color: white;
+}
+
 .skill-unit:hover > .prove-it-block {
     top: 0px;
 }
@@ -116,12 +161,18 @@ p {
 }
 
 .skill-unit-quiz {
+    position: relative;
     margin-top: 8px;
-    height: 500px;
+    height: 200px;
     width: 100%;
     display: inline-block;
     background-color: rgba(244, 244, 244, 0.9);
-    box-shadow: inset 0px 0px 2px rgba(193, 193, 193, 0.9);;
+    box-shadow: inset 0px 0px 2px rgba(193, 193, 193, 0.9);
+}
+
+.quiz {
+    margin-top: 40px;
+    margin-left: 40px;
 }
 
 .skill-unit-logo {
