@@ -79,6 +79,22 @@ p {
     height: 30px;
 }
 
+.skill-unit-progress {
+    width: 100%;
+    height: 4px;
+    margin: 0px;
+    border-radius: 4px 4px 4px 4px;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 2px lightgrey;
+}
+
+.skill-unit-progress-runner {
+    background-color: #4CAF50;
+    box-shadow: 1px 0px 2px #449d48;
+    width: 75%;
+    height: 30px;
+}
+
 #skillDescription {
     width: 50%;
     margin: auto;
