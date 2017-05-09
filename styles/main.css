@@ -158,6 +158,7 @@ p {
     border-radius: 4px;
     box-shadow:1px 0px 2px #ca382d;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .skill-unit-quiz {
