@@ -137,6 +137,7 @@ p {
 .skill-unit:hover > .prove-it-block {
     top: 0px;
 }
+
 .prove-it-block {
     transition: top 0.2s ease;
     top: -80px;
@@ -144,6 +145,11 @@ p {
     height: 80px;
     width: 100%;
     background-color: rgba(244, 244, 244, 0.9);
+    
+}
+
+.prove-it-block > a {
+    text-decoration: none;
 }
 
 .prove-it-button {
@@ -157,8 +163,7 @@ p {
     text-align: center;
     border-radius: 4px;
     box-shadow:1px 0px 2px #ca382d;
-    cursor: pointer;
-    text-decoration: none;
+    cursor: pointer;    
 }
 
 .skill-unit-quiz {
