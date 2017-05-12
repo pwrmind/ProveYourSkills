@@ -197,13 +197,14 @@ p {
 }
 
 #skillDescription {
-    width: 50%;
+    max-width: 800px;
+    min-width: 600px;
     margin: auto;
     margin-bottom: 20px;
 }
 
 #skillUnitList {
-    width: 50%;
+    max-width: 800px;
     min-width: 600px;
     margin: auto;
     margin-top: 8px;
@@ -336,21 +337,55 @@ p {
 
 }
 
-#quiz {
+.right-panel > .quiz {
     width: 300px;
     min-height: 100px;
-    box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.2);
-    padding: 4px;
     background-color: rgba(245, 245, 245, 0.2);
-    border-radius: 4px 0px 0px 4px;
+    border-radius: 8px 8px 0px 0px;
+    overflow: hidden;
+    margin: auto;
+    margin-bottom: 40px;
 }
 
-.quiz-title {
-    margin-left: 4px;
-    line-height:40px;
+.left-panel > .quiz {
+    width: 300px;
+    min-height: 100px;
+    background-color: rgba(245, 245, 245, 0.2);
+    border-radius: 8px 8px 0px 0px;
+    overflow: hidden;
+    margin: auto;
+    margin-bottom: 40px;
 }
 
-.skill-logo {
+.left-panel > .offers {
+    width: 300px;
+    min-height: 100px;
+    background-color: rgba(245, 245, 245, 0.2);
+    border-radius: 8px 8px 0px 0px;
+    overflow: hidden;
+    margin: auto;
+    margin-bottom: 40px;
+}
+
+.quiz-title, .offer-title {
+    line-height: 40px;
+    background-color: #4CAF50;
+    padding: 8px;
+    box-shadow: 1px 0px 2px #449d48;
+    margin-bottom: 8px;
+    color: whitesmoke;
+}
+
+.quiz-question {
+    font-size: 16px;
+}
+
+.quiz-answer {
+    margin-left: 8px;
+}
+
+
+.skill-logo, .offer-logo, .quiz-logo {
   width: 40px;
   height:40px;
   float: left;
@@ -361,18 +396,39 @@ p {
     width: 100%;
 }
 
+.offer-logo > img {
+    width: 100%;
+}
+.quiz-logo > img {
+    width: 100%;
+}
+
 .panel-container {
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     display: flex;
 }
 .left-panel {
-    width: 300px;
+    width: 320px;
+    flex-grow: 1;
 }
 
 .center-panel {
     width: 600px;
+    flex-grow: 8;
 }
 
 .right-panel {
-    width: 300px;
+    width: 320px;
+    flex-grow: 1;
+}
+
+.offer-item {
+    line-height:40px;
+}
+
+.offer-item-title {
+}
+
+.offer-list {
+    padding-left: 8px;
 }
