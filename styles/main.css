@@ -173,7 +173,7 @@ p {
 }
 
 .achievement-description {
-    transition: width 0.2s ease, color 0.4s ease;
+    transition: width 0.2s ease, color 0.4s ease, box-shadow 0.4s ease-out;
     width: 48px;
     padding-right: 0px;
     white-space: nowrap;
@@ -334,4 +334,27 @@ p {
 
 .skill-unit-description {
 
+}
+
+#quiz {
+  width:300px;
+  min-height: 100px;
+  box-shadow: inset 0px 0px 2px black;
+  padding: 4px;
+}
+
+.quiz-title {
+  margin-left: 4px;
+  line-height:40px;
+}
+
+.skill-logo {
+  width: 40px;
+  height:40px;
+  float: left;
+  margin-right:4px;
+}
+
+.skill-logo > img {
+    width: 100%;
 }
