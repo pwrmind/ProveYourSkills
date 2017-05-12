@@ -120,6 +120,19 @@ p {
     height: 30px;
 }
 
+.skill-unit-level {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    position: absolute;
+    border-radius: 0px 0px 4px 4px;
+    padding: 4px;
+    background-color: #4CAF50;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
 .skill-unit-progress {
     width: 100%;
     height: 4px;
