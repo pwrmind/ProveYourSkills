@@ -1,5 +1,6 @@
 html, body {
-    margin: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
     padding: 0px;
     font-size: 14px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -337,15 +338,17 @@ p {
 }
 
 #quiz {
-  width:300px;
-  min-height: 100px;
-  box-shadow: inset 0px 0px 2px black;
-  padding: 4px;
+    width: 300px;
+    min-height: 100px;
+    box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    background-color: rgba(245, 245, 245, 0.2);
+    border-radius: 4px 0px 0px 4px;
 }
 
 .quiz-title {
-  margin-left: 4px;
-  line-height:40px;
+    margin-left: 4px;
+    line-height:40px;
 }
 
 .skill-logo {
@@ -357,4 +360,20 @@ p {
 
 .skill-logo > img {
     width: 100%;
+}
+
+.panel-container {
+    justify-content: space-between;
+    display: flex;
+}
+.left-panel {
+    width: 300px;
+}
+
+.center-panel {
+    width: 600px;
+}
+
+.right-panel {
+    width: 300px;
 }
