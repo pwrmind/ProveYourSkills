@@ -6,8 +6,7 @@
     <script src="https://rawgit.com/angular/bower-angular/master/angular.min.js"></script>
     <link href="./styles/main.css" rel="stylesheet">
 </head>
-<body>
-    <div>
+<body><div>
         <div id="headerBlock">
             <div id="header">
                 <a href="./myskills.html">
@@ -22,17 +21,111 @@
                 </a>
             </div>
         </div>
-        <div id="skillLogo">
+        <div id="userLogoBlock">
+            <div id="skillLogo">
+                <img src="./images/skill_00003.png" alt="Logo">
+            </div>
+            <div id="skillProgress">
+                <div id="skillProgressRunner"></div>
+            </div>
+            <div id="skillName">
+                <h1>CSS</h1>
+            </div>
+            <div id="skillDescription">
+                <p>Формальный язык описания внешнего вида документа, написанного с использованием языка разметки. язык стилей, определяющий отображение HTML-документов. Например, CSS работает с шрифтами, цветом, полями, строками, высотой, шириной, фоновыми изображениями, позиционированием элементов и многими другими вещами.</p>
+            </div>
+        </div>
+        <div class="panel-container">
+            <div class="left-panel">                            
+                <div class="offers">
+                    <div class="offer-title">
+                        <div class="offer-logo">
+                            <img src="./images/icon_00003.png" alt="">
+                        </div>
+                        <h4>Предложения</h4>
+                    </div>                    
+                    <div class="offer-list">
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/firm_00001.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">HP - Архитектор</div>
+                        </div>
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/firm_00002.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">DELL - Мечтатель</div>
+                        </div>
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/firm_00003.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">LG - Инжинер</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offers">
+                    <div class="offer-title">
+                        <div class="offer-logo">
+                            <img src="./images/icon_00003.png" alt="">
+                        </div>
+                        <h4>Топ навыков</h4>
+                    </div>                    
+                    <div class="offer-list">
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/skill_00007.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">CSS</div>
+                        </div>
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/skill_00008.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">JS</div>
+                        </div>
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/skill_00006.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">HTML</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offers">
+                    <div class="offer-title">
+                        <div class="offer-logo">
+                            <img src="./images/icon_00003.png" alt="">
+                        </div>
+                        <h4>Рекомендованные</h4>
+                    </div>                    
+                    <div class="offer-list">
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/skill_00007.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">CSS</div>
+                        </div>
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/skill_00008.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">JS</div>
+                        </div>
+                        <div class="offer-item">
+                            <div class="offer-logo">
+                                <img src="./images/skill_00006.png" alt="Logo">
+                            </div>
+                            <div class="offer-item-title">HTML</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="center-panel">
+                <div>
+                    <div id="skillLogo">
             <img src="./images/skill_00003.png" alt="Logo">
-        </div>
-        <div id="skillProgress">
-            <div id="skillProgressRunner"></div>
-        </div>
-        <div id="skillName">
-            <h1>CSS</h1>
-        </div>
-        <div id="skillDescription">
-            <p>Формальный язык описания внешнего вида документа, написанного с использованием языка разметки. язык стилей, определяющий отображение HTML-документов. Например, CSS работает с шрифтами, цветом, полями, строками, высотой, шириной, фоновыми изображениями, позиционированием элементов и многими другими вещами.</p>
         </div>
         <div id="skillUnitList">
             <div class="skill-unit">
@@ -114,6 +207,54 @@
                 <div class="prove-it-block">
                     <div class="prove-it-button"><h4>Prove it!</h4></div>
                 </div>
+            </div>
+        </div>
+                </div>
+            </div>
+            <div class="right-panel">
+                <form class="quiz">
+                    <div class="quiz-title">
+                        <div class="quiz-logo">
+                            <img src="./images/skill_00008.png" alt="">
+                        </div>
+                        <h4>JS - прохождение</h4>
+                    </div>                    
+                    <div class="quiz-answer">
+                        <div class="quiz-question">Какое у вас состояние разума?</div>
+                        <div><input name="dzen" type="radio" value="nedzen"> Не дзен</div>
+                        <div><input name="dzen" type="radio" value="dzen"> Дзен</div>
+                        <div><input name="dzen" type="radio" value="pdzen" checked> Полный дзен</div>
+                        <div><input type="submit" value="Выбрать"><input type="button" value="Пропустить"></div>
+                    </div>
+                </form>
+                <form class="quiz">
+                    <div class="quiz-title">
+                        <div class="quiz-logo">
+                            <img src="./images/skill_00007.png" alt="">
+                        </div>
+                        <h4>CSS- подтверждение</h4>
+                    </div>                    
+                    <div class="quiz-answer">
+                        <div class="quiz-question">Какое у вас состояние разума?</div>
+                        <div><input name="dzen" type="radio" value="nedzen"> Не дзен</div>
+                        <div><input name="dzen" type="radio" value="dzen"> Дзен</div>
+                        <div><input name="dzen" type="radio" value="pdzen" checked> Полный дзен</div>
+                        <div><input type="submit" value="Выбрать"><input type="button" value="Пропустить"></div>
+                    </div>
+                </form>
+                <form class="quiz">
+                    <div class="quiz-title">
+                        <div class="quiz-logo">
+                            <img src="./images/icon_00001.png" alt="">
+                        </div>
+                        <h4>HTML - 1 уровень</h4>
+                    </div>                    
+                    <div class="quiz-answer">
+                        <div class="quiz-question">Задайте вопрос кондидату:</div>
+                        <div><input name="dzen" type="text" value=""></div>
+                        <div><input type="submit" value="Задать"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

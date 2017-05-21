@@ -197,8 +197,7 @@ p {
 }
 
 #skillDescription {
-    max-width: 800px;
-    min-width: 600px;
+    width: 600px;
     margin: auto;
     margin-bottom: 20px;
 }
