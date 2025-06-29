@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillTracker</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Основные стили с принципом 60-30-10 */
+        :root {
+            --primary: #f5f7fa; /* 60% - основной фон */
+            --secondary: #2c3e50; /* 30% - вторичный цвет */
+            --accent: #42b983; /* 10% - акцентный цвет */
+            --light: #ffffff;
+            --gray: #e0e0e0;
+            --dark-gray: #7f8c8d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--secondary);
+            line-height: 1.6;
+        }
+        
+        #app {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        /* Шапка приложения */
+        header {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover, .nav-links a.router-link-active {
+            background-color: var(--accent);
+            color: var(--light);
+        }
+        
+        /* Основной контент */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .main-container {
+                grid-template-columns: 300px 1fr;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .main-container {
+                grid-template-columns: 300px 1fr 300px;
+            }
+        }
+        
+        .panel {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .left-panel, .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .center-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+        
+        /* Карточки */
+        .card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray);
+        }
+        
+        .card-title i {
+            color: var(--accent);
+        }
+        
+        /* Элементы списка */
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        /* Прогресс-бар */
+        .progress-container {
+            background-color: var(--gray);
+            border-radius: 20px;
+            height: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .progress-runner {
+            background-color: var(--accent);
+            border-radius: 20px;
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-level {
+            position: absolute;
+            right: 10px;
+            top: -5px;
+            background-color: var(--secondary);
+            color: var(--light);
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        /* Кнопки */
+        .btn {
+            background-color: var(--accent);
+            color: var(--light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: var(--light);
+        }
+        
+        /* Формы и квизы */
+        .quiz {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input[type="radio"], input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            width: 100%;
+        }
+        
+        .quiz-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 767px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .left-panel, .right-panel {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 100;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background-color: var(--accent);
+                color: var(--light);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                box-shadow: var(--shadow);
+            }
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* Заголовки */
+        h1, h2, h3, h4 {
+            color: var(--secondary);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        /* Иконки */
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 10px;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        /* Секции */
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Статистика */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .stat-card {
+            background-color: var(--primary);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Скиллы */
+        .skill-unit {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--primary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .skill-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .skill-info {
+            flex: 1;
+        }
+        
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            color: var(--light);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="logo">
+                <img :src="'./images/' + user.avatar" alt="User Logo">
+                <h1>{{ user.name }}</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="#" @click.prevent="changeView('myskills')" :class="{ 'router-link-active': currentView === 'myskills' }">
+                    <i class="fas fa-home"></i> Профиль
+                </a>
+                <a href="#" @click.prevent="changeView('skills')" :class="{ 'router-link-active': currentView === 'skills' }">
+                    <i class="fas fa-code"></i> Навыки
+                </a>
+            </nav>
+        </header>
+        
+        <div class="main-container">
+            <!-- Левая панель -->
+            <div class="panel left-panel">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>Предложения</h3>
+                    </div>
+                    <div class="offer-list">
+                        <div v-for="offer in offers" :key="offer.id" class="list-item">
+                            <div class="icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div>
+                                <h4>{{ offer.company }} - {{ offer.position }}</h4>
+                                <p>{{ offer.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Топ навыков</h3>
+                    </div>
+                    <div class="top-skills">
+                        <div v-for="(skill, index) in topSkills" :key="index" class="list-item">
+                            <div class="skill-logo">
+                                <i :class="skill.icon"></i>
+                            </div>
+                            <div>
+                                <h4>{{ skill.name }}</h4>
+                                <div class="progress-container">
+                                    <div class="progress-runner" :style="{ width: skill.progress + '%' }"></div>
+                                    <span class="progress-level">{{ skill.level }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Рекомендованные</h3>
+                    </div>
+                    <div class="recommended-skills">
+                        <div v-for="(skill, index) in recommendedSkills" :key="index" class="list-item">
+                            <div class="skill-logo">
+                                <i :class="skill.icon"></i>
+                            </div>
+                            <div>
+                                <h4>{{ skill.name }}</h4>
+                                <p>{{ skill.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Центральная панель -->
+            <div class="panel center-panel">
+                <div v-if="currentView === 'myskills'" class="fade-in">
+                    <div class="card">
+                        <div class="user-info">
+                            <div class="user-logo">
+                                <img :src="'./images/' + user.avatar" alt="User Logo" style="width: 120px; height: 120px; border-radius: 50%;">
+                            </div>
+                            <h1>{{ user.name }}</h1>
+                            <div class="stats">
+                                <div class="stat-card">
+                                    <div class="number">{{ user.stats.totalSkills }}</div>
+                                    <div class="label">Всего навыков</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="number">{{ user.stats.totalAnswers }}</div>
+                                    <div class="label">Всего ответов</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card" v-for="category in categories" :key="category.id">
+                        <div class="skill-header">
+                            <div class="skill-logo" style="width: 60px; height: 60px; font-size: 2rem;">
+                                <i :class="category.icon"></i>
+                            </div>
+                            <div>
+                                <h2>{{ category.name }}</h2>
+                                <p>{{ category.description }}</p>
+                            </div>
+                        </div>
+                        
+                        <div v-for="skill in category.skills" :key="skill.id" class="skill-unit">
+                            <div class="skill-logo">
+                                <i :class="skill.icon"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h3>{{ skill.name }}</h3>
+                                <p>{{ skill.description }}</p>
+                                <div class="progress-container">
+                                    <div class="progress-runner" :style="{ width: skill.progress + '%' }"></div>
+                                    <span class="progress-level">{{ skill.level }}</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" @click="openSkill(skill)">
+                                <i class="fas fa-tasks"></i> Prove it!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div v-if="currentView === 'skills'" class="fade-in">
+                    <div class="card">
+                        <h1>Все навыки</h1>
+                        <p>Выберите категорию для просмотра навыков</p>
+                        
+                        <div class="categories-grid">
+                            <div v-for="category in categories" :key="category.id" class="category-card" @click="openCategory(category)">
+                                <div class="skill-logo" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                                    <i :class="category.icon"></i>
+                                </div>
+                                <h3>{{ category.name }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div v-if="currentView === 'skill'" class="fade-in">
+                    <div class="card">
+                        <div class="skill-header" style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+                            <div class="skill-logo" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                                <i :class="currentSkill.icon"></i>
+                            </div>
+                            <div>
+                                <h1>{{ currentSkill.name }}</h1>
+                                <p>{{ currentSkill.description }}</p>
+                                <div class="progress-container" style="width: 100%;">
+                                    <div class="progress-runner" :style="{ width: currentSkill.progress + '%' }"></div>
+                                    <span class="progress-level">{{ currentSkill.level }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Поднавыки</h2>
+                            <div v-for="(item, index) in currentSkill.items" :key="index" class="skill-unit">
+                                <div class="skill-logo">
+                                    <i :class="item.icon"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h3>{{ item.name }}</h3>
+                                    <p>{{ item.description }}</p>
+                                </div>
+                                <button class="btn btn-outline" @click="startQuiz(item)">
+                                    <i class="fas fa-tasks"></i> Prove it!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div v-if="currentView === 'quiz'" class="fade-in">
+                    <div class="card">
+                        <div class="quiz-header" style="display: flex; gap: 20px; align-items: center; margin-bottom: 30px;">
+                            <div class="skill-logo" style="width: 60px; height: 60px; font-size: 2rem;">
+                                <i :class="currentQuiz.icon"></i>
+                            </div>
+                            <div>
+                                <h1>{{ currentQuiz.title }}</h1>
+                                <p>Проверьте свои знания по теме</p>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-info" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <div>Вопрос {{ currentQuestionIndex + 1 }} из {{ currentQuiz.questions.length }}</div>
+                            <div>Время: 0:00</div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h3>{{ currentQuestion.text }}</h3>
+                        </div>
+                        
+                        <div class="quiz-options">
+                            <div v-if="currentQuestion.type === 'radio'" class="quiz-option" v-for="(option, index) in currentQuestion.options" :key="index">
+                                <input type="radio" :id="'option' + index" :name="'question' + currentQuestionIndex" :value="option">
+                                <label :for="'option' + index">{{ option }}</label>
+                            </div>
+                            
+                            <div v-if="currentQuestion.type === 'text'">
+                                <input type="text" placeholder="Введите ваш ответ">
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-actions">
+                            <button class="btn" @click="nextQuestion" v-if="currentQuestionIndex < currentQuiz.questions.length - 1">
+                                <i class="fas fa-arrow-right"></i> Следующий вопрос
+                            </button>
+                            <button class="btn" @click="finishQuiz" v-else>
+                                <i class="fas fa-check"></i> Завершить тест
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-step-forward"></i> Пропустить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Правая панель -->
+            <div class="panel right-panel">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>Активные тесты</h3>
+                    </div>
+                    <div class="active-quizzes">
+                        <div v-for="quiz in activeQuizzes" :key="quiz.id" class="quiz">
+                            <div class="quiz-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                                <div class="skill-logo">
+                                    <i :class="quiz.icon"></i>
+                                </div>
+                                <h4>{{ quiz.title }}</h4>
+                            </div>
+                            <div class="quiz-question">
+                                {{ quiz.currentQuestion }}
+                            </div>
+                            <div class="quiz-actions">
+                                <button class="btn" @click="startQuiz(quiz)">
+                                    <i class="fas fa-play"></i> Продолжить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Прогресс</h3>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="list-item">
+                            <div class="icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <div>
+                                <h4>Уровень профиля</h4>
+                                <div class="progress-container">
+                                    <div class="progress-runner" :style="{ width: userLevelProgress + '%' }"></div>
+                                    <span class="progress-level">{{ userLevel }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <div class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h4>Завершено тестов</h4>
+                                <p>{{ completedQuizzes }} из {{ totalQuizzes }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-bullhorn"></i>
+                        <h3>Новости</h3>
+                    </div>
+                    <div class="news">
+                        <div class="list-item">
+                            <div class="icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div>
+                                <h4>Новая функция!</h4>
+                                <p>Теперь доступны прогресс-бары для навыков</p>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <div class="icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div>
+                                <h4>Конкурс навыков</h4>
+                                <p>Участвуйте и выигрывайте призы!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mobile-menu-btn" v-if="isMobile">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <div class="notification" v-if="showNotification">
+            Данные успешно сохранены!
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, reactive, computed, onMounted, watch } = Vue;
+        
+        createApp({
+            setup() {
+                // Состояние приложения
+                const currentView = ref('myskills');
+                const currentSkill = ref(null);
+                const currentQuiz = ref(null);
+                const currentQuestionIndex = ref(0);
+                const showNotification = ref(false);
+                const isMobile = ref(window.innerWidth < 768);
+                
+                // Тестовые данные пользователя
+                const user = reactive({
+                    id: "user_00001",
+                    name: "Билли Миллиган",
+                    avatar: "user_00001.png",
+                    stats: {
+                        totalSkills: 12,
+                        totalAnswers: 56
+                    }
+                });
+                
+                // Категории навыков
+                const categories = reactive([
+                    {
+                        id: "cat_web",
+                        name: "Веб-разработка",
+                        description: "Процесс создания веб-сайта или веб-приложения. Основными этапами процесса являются веб-дизайн, вёрстка страниц, программирование для веб на стороне клиента и сервера, а также конфигурирование веб-сервера.",
+                        icon: "fas fa-code",
+                        skills: [
+                            {
+                                id: "skill_html",
+                                name: "HTML",
+                                description: "Cтандартизированный язык разметки документов во Всемирной паутине. Большинство веб-страниц содержат описание разметки на языке HTML.",
+                                icon: "fab fa-html5",
+                                level: 6,
+                                progress: 65,
+                                items: [
+                                    {
+                                        name: "Структура документа",
+                                        description: "Понимание базовой структуры HTML-документа.",
+                                        icon: "fas fa-file-code"
+                                    },
+                                    {
+                                        name: "Семантические теги",
+                                        description: "Использование тегов по их назначению.",
+                                        icon: "fas fa-tags"
+                                    }
+                                ]
+                            },
+                            {
+                                id: "skill_css",
+                                name: "CSS",
+                                description: "Формальный язык описания внешнего вида документа, написанного с использованием языка разметки.",
+                                icon: "fab fa-css3-alt",
+                                level: 3,
+                                progress: 35,
+                                items: [
+                                    {
+                                        name: "Flexbox",
+                                        description: "Модель макета для создания адаптивных интерфейсов.",
+                                        icon: "fas fa-boxes"
+                                    },
+                                    {
+                                        name: "Grid",
+                                        description: "Двумерная система макета для веб-страниц.",
+                                        icon: "fas fa-th"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "cat_admin",
+                        name: "Администрирование ПО",
+                        description: "Приведение программного обеспечения в соответствие с целями и задачами, для которых оно предназначено.",
+                        icon: "fas fa-server",
+                        skills: [
+                            {
+                                id: "skill_linux",
+                                name: "Linux",
+                                description: "Операционная система на базе ядра Linux.",
+                                icon: "fab fa-linux",
+                                level: 7,
+                                progress: 75,
+                                items: [
+                                    {
+                                        name: "Командная строка",
+                                        description: "Работа с терминалом и основными командами.",
+                                        icon: "fas fa-terminal"
+                                    },
+                                    {
+                                        name: "Управление пакетами",
+                                        description: "Установка и обновление программного обеспечения.",
+                                        icon: "fas fa-box-open"
+                                    }
+                                ]
+                            },
+                            {
+                                id: "skill_docker",
+                                name: "Docker",
+                                description: "Платформа для разработки, доставки и запуска контейнеризованных приложений.",
+                                icon: "fab fa-docker",
+                                level: 4,
+                                progress: 45,
+                                items: [
+                                    {
+                                        name: "Dockerfile",
+                                        description: "Создание образов с помощью Dockerfile.",
+                                        icon: "fas fa-file-alt"
+                                    },
+                                    {
+                                        name: "Docker Compose",
+                                        description: "Управление многоконтейнерными приложениями.",
+                                        icon: "fas fa-cubes"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]);
+                
+                // Предложения о работе
+                const offers = reactive([
+                    {
+                        id: "offer_01",
+                        company: "HP",
+                        position: "Архитектор",
+                        description: "Разработка архитектуры веб-приложений"
+                    },
+                    {
+                        id: "offer_02",
+                        company: "DELL",
+                        position: "Мечтатель",
+                        description: "Разработка инновационных решений"
+                    },
+                    {
+                        id: "offer_03",
+                        company: "LG",
+                        position: "Инжинер",
+                        description: "Разработка и поддержка ПО"
+                    }
+                ]);
+                
+                // Активные квизы
+                const activeQuizzes = reactive([
+                    {
+                        id: "quiz_01",
+                        title: "JS - прохождение",
+                        icon: "fab fa-js",
+                        currentQuestion: "Какое у вас состояние разума?"
+                    },
+                    {
+                        id: "quiz_02",
+                        title: "CSS - подтверждение",
+                        icon: "fab fa-css3-alt",
+                        currentQuestion: "Что такое Flexbox?"
+                    }
+                ]);
+                
+                // Топ навыки
+                const topSkills = computed(() => {
+                    return categories.flatMap(cat => cat.skills)
+                        .sort((a, b) => b.level - a.level)
+                        .slice(0, 3);
+                });
+                
+                // Рекомендованные навыки
+                const recommendedSkills = computed(() => {
+                    return categories.flatMap(cat => cat.skills)
+                        .filter(skill => skill.level < 5)
+                        .sort((a, b) => b.level - a.level)
+                        .slice(0, 3);
+                });
+                
+                // Прогресс пользователя
+                const userLevel = computed(() => {
+                    const totalLevel = categories.flatMap(cat => cat.skills)
+                        .reduce((sum, skill) => sum + skill.level, 0);
+                    return Math.floor(totalLevel / 5);
+                });
+                
+                const userLevelProgress = computed(() => {
+                    const totalLevel = categories.flatMap(cat => cat.skills)
+                        .reduce((sum, skill) => sum + skill.level, 0);
+                    return (totalLevel % 5) * 20;
+                });
+                
+                const completedQuizzes = computed(() => 24);
+                const totalQuizzes = computed(() => 38);
+                
+                // Текущий вопрос в квизе
+                const currentQuestion = computed(() => {
+                    if (currentQuiz.value && currentQuiz.value.questions) {
+                        return currentQuiz.value.questions[currentQuestionIndex.value];
+                    }
+                    return null;
+                });
+                
+                // Функции приложения
+                const changeView = (view) => {
+                    currentView.value = view;
+                };
+                
+                const openCategory = (category) => {
+                    currentView.value = 'myskills';
+                    // Прокрутка к категории
+                    setTimeout(() => {
+                        const element = document.querySelector(`[data-category="${category.id}"]`);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 100);
+                };
+                
+                const openSkill = (skill) => {
+                    currentSkill.value = skill;
+                    currentView.value = 'skill';
+                };
+                
+                const startQuiz = (item) => {
+                    currentQuiz.value = {
+                        id: `quiz_${item.name.toLowerCase()}`,
+                        title: `${item.name} - проверка знаний`,
+                        icon: item.icon,
+                        questions: [
+                            {
+                                text: "Что вы знаете о " + item.name + "?",
+                                type: "text"
+                            },
+                            {
+                                text: "Какой ваш уровень владения " + item.name + "?",
+                                type: "radio",
+                                options: ["Начальный", "Средний", "Продвинутый", "Эксперт"]
+                            },
+                            {
+                                text: "Как часто вы используете " + item.name + " в работе?",
+                                type: "radio",
+                                options: ["Ежедневно", "Несколько раз в неделю", "Редко", "Никогда"]
+                            }
+                        ]
+                    };
+                    currentQuestionIndex.value = 0;
+                    currentView.value = 'quiz';
+                };
+                
+                const nextQuestion = () => {
+                    if (currentQuestionIndex.value < currentQuiz.value.questions.length - 1) {
+                        currentQuestionIndex.value++;
+                    }
+                };
+                
+                const finishQuiz = () => {
+                    // Обновляем прогресс навыка
+                    if (currentSkill.value) {
+                        currentSkill.value.progress = Math.min(currentSkill.value.progress + 15, 100);
+                        if (currentSkill.value.progress === 100) {
+                            currentSkill.value.level = Math.min(currentSkill.value.level + 1, 10);
+                            currentSkill.value.progress = 0;
+                        }
+                        
+                        // Показываем уведомление
+                        showNotification.value = true;
+                        setTimeout(() => {
+                            showNotification.value = false;
+                        }, 3000);
+                    }
+                    
+                    // Возвращаемся к навыку
+                    currentView.value = 'skill';
+                };
+                
+                // Сохранение данных в localStorage
+                const saveData = () => {
+                    const data = {
+                        user,
+                        categories,
+                        offers
+                    };
+                    localStorage.setItem('skillTrackerData', JSON.stringify(data));
+                };
+                
+                // Загрузка данных из localStorage
+                const loadData = () => {
+                    const savedData = localStorage.getItem('skillTrackerData');
+                    if (savedData) {
+                        const parsedData = JSON.parse(savedData);
+                        Object.assign(user, parsedData.user);
+                        categories.splice(0, categories.length, ...parsedData.categories);
+                        offers.splice(0, offers.length, ...parsedData.offers);
+                    }
+                };
+                
+                // Автоматическое сохранение при изменении данных
+                watch([user, categories, offers], () => {
+                    saveData();
+                }, { deep: true });
+                
+                // Инициализация
+                onMounted(() => {
+                    loadData();
+                    
+                    // Обработка изменения размера окна
+                    window.addEventListener('resize', () => {
+                        isMobile.value = window.innerWidth < 768;
+                    });
+                });
+                
+                return {
+                    currentView,
+                    currentSkill,
+                    currentQuiz,
+                    currentQuestion,
+                    currentQuestionIndex,
+                    showNotification,
+                    isMobile,
+                    user,
+                    categories,
+                    offers,
+                    activeQuizzes,
+                    topSkills,
+                    recommendedSkills,
+                    userLevel,
+                    userLevelProgress,
+                    completedQuizzes,
+                    totalQuizzes,
+                    changeView,
+                    openCategory,
+                    openSkill,
+                    startQuiz,
+                    nextQuestion,
+                    finishQuiz
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
